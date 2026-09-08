@@ -78,14 +78,12 @@ class SimulationBootstrap:
 
 
 def _configure_streaming_500(sim_app, enable_webrtc: bool):
-    """Configure streaming for Isaac Sim 5.0+."""
+    """Configure streaming for Isaac Sim 6.0+."""
     if not enable_webrtc:
         return
 
-    from omni.isaac.core.utils.extensions import enable_extension
+    from isaacsim.core.utils.extensions import enable_extension
 
     sim_app.set_setting("/app/window/drawMouse", True)
-    try:
-        enable_extension("omni.kit.livestream.webrtc")
-    except Exception:
-        enable_extension("omni.services.streamclient.webrtc")
+    sim_app.set_setting("/app/livestream/allowInsecureWebSockets", True)
+    enable_extension("omni.kit.livestream.webrtc")

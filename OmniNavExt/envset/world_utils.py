@@ -55,7 +55,7 @@ def bootstrap_world_if_needed(**overrides):
     """
 
     try:
-        from omni.isaac.core import World
+        from isaacsim.core.api import World
     except Exception as exc:  # pragma: no cover
         raise RuntimeError("Isaac Core World API is unavailable in the current environment.") from exc
 
@@ -96,6 +96,6 @@ def bootstrap_world_if_needed(**overrides):
 
 
 def ensure_world(*_args, **_kwargs):
-    """Return a valid omni.isaac.core.World, creating it if necessary."""
+    """Return a valid isaacsim.core.api.World, creating it if necessary."""
 
     return bootstrap_world_if_needed(**_kwargs)

@@ -63,7 +63,7 @@ class MoveToPointOracleController(BaseController):
         rotation_speed: float = 8,
         threshold: float = 0.02,
     ) -> ArticulationAction:
-        from omni.isaac.core.utils.rotations import euler_angles_to_quat
+        from isaacsim.core.utils.rotations import euler_angles_to_quat
 
         self.goal_position = goal_position
         self.goal_position[-1] = 0

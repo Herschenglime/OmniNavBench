@@ -105,7 +105,7 @@ class PhysicsManager:
             True if all articulations initialized, False on timeout
         """
         import carb  # type: ignore
-        from omni.isaac.core.simulation_context import SimulationContext  # type: ignore
+        from isaacsim.core.api.simulation_context import SimulationContext  # type: ignore
 
         world = getattr(runner, "_world", None)
         if not world:

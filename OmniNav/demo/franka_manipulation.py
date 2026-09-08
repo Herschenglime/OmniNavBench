@@ -46,7 +46,7 @@ config = Config(
 import_extensions()
 
 env = Env(config)
-from omni.isaac.core.utils.rotations import euler_angles_to_quat
+from isaacsim.core.utils.rotations import euler_angles_to_quat
 
 obs, _ = env.reset()
 print(f'========INIT OBS{obs}=============')

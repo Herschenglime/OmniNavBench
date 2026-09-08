@@ -52,8 +52,8 @@ class IsaacsimRigidBody(IRigidBody):
         owner_articulation: Optional[IArticulation] = None,
     ):
         from isaacsim.core.utils.prims import get_prim_at_path
-        from omni.isaac.core.prims import RigidPrim
-        from omni.isaac.core.utils.stage import add_reference_to_stage
+        from isaacsim.core.prims import RigidPrim
+        from isaacsim.core.utils.stage import add_reference_to_stage
 
         self._is_link = False
         if owner_articulation is not None:
@@ -123,7 +123,7 @@ class IsaacsimRigidBody(IRigidBody):
         self.status = get_rigidbody_status(self._rigid_prim)
 
     def restore_status(self):
-        from omni.isaac.core.prims import RigidPrim
+        from isaacsim.core.prims import RigidPrim
 
         self._rigid_prim = RigidPrim(**self._param)
         if not self.status:

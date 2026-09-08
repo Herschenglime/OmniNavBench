@@ -372,13 +372,14 @@ class EnvsetStandaloneRunner:
 
     @staticmethod
     def _configure_streaming_500(sim_app, enable_webrtc: bool):
-        """Configure streaming for Isaac Sim 5.0+."""
+        """Configure streaming for Isaac Sim 6.0+."""
         if not enable_webrtc:
             return
-        from omni.isaac.core.utils.extensions import enable_extension  # type: ignore
+        from isaacsim.core.utils.extensions import enable_extension  # type: ignore
 
         sim_app.set_setting("/app/window/drawMouse", True)
-        enable_extension("omni.services.streamclient.webrtc")
+        sim_app.set_setting("/app/livestream/allowInsecureWebSockets", True)
+        enable_extension("omni.kit.livestream.webrtc")
 
     def _build_config_model(self) -> Config:
         merged = copy.deepcopy(self._merged_dict)
@@ -497,7 +498,7 @@ class EnvsetStandaloneRunner:
 
     def _wait_for_initialization(self):
         import carb  # type: ignore
-        from omni.isaac.core.simulation_context import SimulationContext  # type: ignore
+        from isaacsim.core.api.simulation_context import SimulationContext  # type: ignore
 
         try:
             world = self._runner._world if hasattr(self._runner, '_world') else None
@@ -1031,7 +1032,7 @@ class EnvsetStandaloneRunner:
     def _wait_for_articulations_initialized(self, max_wait_frames: int = 100):
         """Wait for all articulations to initialize and observe NavMesh baking status."""
         import carb  # type: ignore
-        from omni.isaac.core.simulation_context import SimulationContext  # type: ignore
+        from isaacsim.core.api.simulation_context import SimulationContext  # type: ignore
 
         if not self._runner:
             return False

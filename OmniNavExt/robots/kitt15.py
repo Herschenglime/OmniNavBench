@@ -107,7 +107,7 @@ class KITT15Robot(BaseRobot):
 
         # Load USD at config.prim_path, but create articulation at base_link
         # (where ArticulationRoot actually is — matching the URDF structure)
-        from omni.isaac.core.utils.stage import add_reference_to_stage
+        from isaacsim.core.utils.stage import add_reference_to_stage
         add_reference_to_stage(prim_path=config.prim_path, usd_path=str(config.usd_path))
 
         self.articulation = IArticulation.create(

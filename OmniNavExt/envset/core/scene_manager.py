@@ -265,15 +265,6 @@ class SceneManager:
         Raises:
             RuntimeError: If importer unavailable or import fails
         """
-        # Lazy import Matterport
-        try:
-            from omni.isaac.matterport.scripts import import_matterport_asset  # type: ignore
-        except ImportError as e:
-            raise RuntimeError(
-                "Matterport importer unavailable (missing omni.isaac.matterport). "
-                "Enable extension before running."
-            ) from e
-
         mp_cfg = scene_cfg.get("matterport") or {}
 
         # Get import path
@@ -300,30 +291,31 @@ class SceneManager:
             except Exception:
                 pass
 
-        # Import scene (no ground plane for Matterport, manage_simulation=False)
-        matterport_prim = import_matterport_asset(
-            prim_path=container_path,
-            input_path=import_path,
-            groundplane=False,
-            manage_simulation=False,
-            resolve_relative_to=resolve_root,
-        )
+        final_usd_path = import_path
+        if resolve_root:
+            from pathlib import Path
+            candidate = Path(resolve_root) / import_path
+            if candidate.exists():
+                final_usd_path = str(candidate)
 
-        # Handle async import
-        import inspect
-        if inspect.isawaitable(matterport_prim):
-            import asyncio
-            loop = asyncio.get_event_loop()
-            matterport_prim = loop.run_until_complete(matterport_prim)
+        import omni.usd
+        from pxr import Sdf
+        import isaaclab.sim as sim_utils
 
-        if not matterport_prim:
-            raise RuntimeError("Matterport import failed: importer returned empty prim path.")
+        stage = omni.usd.get_context().get_stage()
+        if not stage.GetPrimAtPath(container_path):
+            stage.DefinePrim(Sdf.Path(container_path), "Xform")
+        child_path = f"{container_path}/Matterport"
+        if not stage.GetPrimAtPath(child_path):
+            stage.DefinePrim(Sdf.Path(child_path), "Xform")
 
-        # Extract path string
-        if hasattr(matterport_prim, "GetPath"):
-            matterport_prim = str(matterport_prim.GetPath())
+        prim = stage.GetPrimAtPath(child_path)
+        prim.GetReferences().ClearReferences()
+        prim.GetReferences().AddReference(final_usd_path)
 
-        return str(matterport_prim)
+        collider_cfg = sim_utils.CollisionPropertiesCfg(collision_enabled=True)
+        sim_utils.define_collision_properties(child_path, collider_cfg)
+        return child_path
 
     @staticmethod
     def prepare_matterport_navmesh(

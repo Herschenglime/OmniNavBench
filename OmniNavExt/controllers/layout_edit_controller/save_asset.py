@@ -7,7 +7,7 @@ class SaveAsset:
 
     def save_entire_scene(self, target_folder: str, robot_save_bool: bool, filename: str = 'saved_scene.usd'):
         import omni
-        from omni.isaac.core import SimulationContext
+        from isaacsim.core.api.simulation_context import SimulationContext
 
         try:
             sim = SimulationContext.instance()

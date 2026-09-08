@@ -16,8 +16,8 @@ except ImportError:
     ISAAC_AVAILABLE = False
 
 try:
-    from omni.isaac.core import World
-    from omni.isaac.core.prims import XFormPrim
+    from isaacsim.core.api import World
+    from isaacsim.core.prims import XFormPrim
 except Exception:  # pragma: no cover - runtime dependency
     World = None
     XFormPrim = None

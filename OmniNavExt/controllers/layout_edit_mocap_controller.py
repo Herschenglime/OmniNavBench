@@ -28,8 +28,8 @@ NUM_SPECIFIC_POSE_FRAMES = 12
 @BaseController.register('LayoutEditMocapController')
 class LayoutEditMocapController(BaseController):
     def __init__(self, config: LayoutEditMocapControllerCfg, robot: BaseRobot, scene: IScene):
-        from omni.isaac.core.utils.rotations import euler_angles_to_quat
-        from omni.isaac.core.utils.stage import get_current_stage
+        from isaacsim.core.utils.rotations import euler_angles_to_quat
+        from isaacsim.core.utils.stage import get_current_stage
         from pxr import Gf, UsdGeom
 
         super().__init__(config=config, robot=robot, scene=scene)
@@ -394,7 +394,7 @@ class LayoutEditMocapController(BaseController):
         init_hand_bones_kps,
         manipulate_hand_bones_kps,
     ):
-        from omni.isaac.core.utils.rotations import rot_matrix_to_quat
+        from isaacsim.core.utils.rotations import rot_matrix_to_quat
 
         # Initialize the base point of the hand
         if hand_init_position is None:

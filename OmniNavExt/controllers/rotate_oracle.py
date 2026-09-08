@@ -59,7 +59,7 @@ class RotateOracleController(BaseController):
         rotation_speed: float = 3,
         threshold: float = 0.02,
     ) -> ArticulationAction:
-        from omni.isaac.core.utils.rotations import quat_to_euler_angles
+        from isaacsim.core.utils.rotations import quat_to_euler_angles
 
         theta = RotateOracleController.get_delta_z_rot(
             start_orientation=start_orientation, goal_orientation=goal_orientation

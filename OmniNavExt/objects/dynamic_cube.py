@@ -12,7 +12,7 @@ class DynamicCube(BaseObject):
         self._config = config
 
     def set_up_to_scene(self, scene: IScene):
-        from omni.isaac.core.objects import DynamicCuboid
+        from isaacsim.core.api.objects import DynamicCuboid
 
         scene.add(
             DynamicCuboid(

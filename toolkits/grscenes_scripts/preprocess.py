@@ -34,7 +34,7 @@ from isaacsim import SimulationApp
 CONFIG = {'headless': True}
 kit = SimulationApp(launch_config=CONFIG)
 
-from omni.isaac.core.utils.semantics import add_update_semantics
+from isaacsim.core.utils.semantics import add_update_semantics
 from pxr import Gf, PhysxSchema, Sdf, Usd, UsdGeom, UsdPhysics
 
 SDF = 'sdf'

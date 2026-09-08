@@ -12,7 +12,7 @@ class VisualCube(BaseObject):
         self._config = config
 
     def set_up_to_scene(self, scene: IScene):
-        from omni.isaac.core.objects.cuboid import VisualCuboid
+        from isaacsim.core.api.objects.cuboid import VisualCuboid
 
         scene.add(
             VisualCuboid(

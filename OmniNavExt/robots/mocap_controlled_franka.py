@@ -15,7 +15,7 @@ from bench.configs.execution import RobotExecutionProfile
 @BaseRobot.register('MocapControlledFrankaRobot')
 class MocapControlledFrankaRobot(BaseRobot):
     def __init__(self, config: MocapControlledFrankaRobotCfg, scene: IScene):
-        from omni.isaac.franka import Franka
+        from isaacsim.robot.manipulators.examples.franka import Franka
 
         super().__init__(config, scene)
         self._start_position = np.array(config.position) if config.position is not None else None

@@ -140,17 +140,18 @@ def resolve_bench_dataset_root(
 
 
 def _is_valid_isaaclab_source(path: Path) -> bool:
-    return path.is_dir() and (path / "omni.isaac.matterport").is_dir()
+    return path.is_dir() and ((path / "isaaclab").is_dir() or (path / "omni.isaac.matterport").is_dir())
 
 
 def candidate_isaaclab_sources() -> list[Path]:
     """Return likely IsaacLab/source locations on the local machine."""
+    sim_candidate = Path.home() / "simulation" / "IsaacLab" / "source"
     home_candidate = Path.home() / "IsaacLab" / "source"
     repo_neighbor_candidate = REPO_ROOT.parents[1] / "IsaacLab" / "source"
 
     seen: set[Path] = set()
     candidates: list[Path] = []
-    for candidate in (home_candidate, repo_neighbor_candidate):
+    for candidate in (sim_candidate, home_candidate, repo_neighbor_candidate):
         candidate = candidate.resolve()
         if candidate not in seen:
             seen.add(candidate)
@@ -205,7 +206,7 @@ def resolve_isaaclab_source(
 
     if required:
         raise FileNotFoundError(
-            "Could not locate IsaacLab/source with omni.isaac.matterport. "
+            "Could not locate IsaacLab/source. "
             f"Set {ISAACLAB_SOURCE_ENV} in the environment or edit {LOCAL_PATHS_ENV.name}."
         )
     return None
@@ -226,15 +227,16 @@ def resolve_runtime_kit_path(
     if not template.is_file():
         raise FileNotFoundError(f"Kit template not found: {template}")
 
-    source_path = isaaclab_source or resolve_isaaclab_source()
-    if source_path is None:
-        raise FileNotFoundError("IsaacLab source path is required to render runtime kit.")
+    source_path = isaaclab_source or resolve_isaaclab_source(required=False)
 
     template_text = template.read_text(encoding="utf-8")
     if KIT_DYNAMIC_MARKER not in template_text:
         raise ValueError(f"Kit template is missing dynamic marker: {KIT_DYNAMIC_MARKER}")
 
-    injected_line = f'    "{_kit_escape(str(source_path))}",'
+    if source_path:
+        injected_line = f'    "{_kit_escape(str(source_path))}",'
+    else:
+        injected_line = '    # external IsaacLab source not injected'
     rendered = template_text.replace(KIT_DYNAMIC_MARKER, injected_line)
 
     digest = hashlib.sha1(

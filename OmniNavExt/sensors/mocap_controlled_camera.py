@@ -84,7 +84,7 @@ class CameraMover(object):
         self.rate = rate
 
     def __call__(self, camera_position, camera_orientation, results):
-        import omni.isaac.core.utils.numpy.rotations as rot_utils
+        import isaacsim.core.utils.numpy.rotations as rot_utils
 
         self.condition_judgment(results)
 

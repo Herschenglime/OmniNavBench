@@ -15,9 +15,9 @@ class UsdObject(BaseObject):
         self._config = config
 
     def set_up_to_scene(self, scene: IScene):
-        from omni.isaac.core.prims import GeometryPrim, RigidPrim
-        from omni.isaac.core.utils.prims import is_prim_path_valid
-        from omni.isaac.core.utils.stage import add_reference_to_stage
+        from isaacsim.core.prims import GeometryPrim, RigidPrim
+        from isaacsim.core.utils.prims import is_prim_path_valid
+        from isaacsim.core.utils.stage import add_reference_to_stage
         from omni.physx.scripts import utils
 
         class RigidObject(RigidPrim):

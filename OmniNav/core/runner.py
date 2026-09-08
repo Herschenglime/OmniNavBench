@@ -67,7 +67,7 @@ class SimulatorRunner:
         Raises:
             ValueError: If both `render` and `physics` are set to False, or if `steps` is less than or equal to 0.
         """
-        from omni.isaac.core.simulation_context import SimulationContext
+        from isaacsim.core.api.simulation_context import SimulationContext
 
         if not render and not physics:
             raise ValueError('both `render` and `physics` are set to False')
@@ -188,7 +188,7 @@ class SimulatorRunner:
             if task.episode_logger:
                 simulation_time = None
                 try:
-                    from omni.isaac.core.simulation_context import SimulationContext
+                    from isaacsim.core.api.simulation_context import SimulationContext
                     simulation_time = SimulationContext.instance().get_physics_dt() * time_step_index
                 except Exception:
                     pass
@@ -297,7 +297,7 @@ class SimulatorRunner:
             - When `start_timeline=False`, the scene is loaded and physics is initialized, but the timeline
               remains paused, allowing for physics property fixes before starting simulation.
         """
-        from omni.isaac.core.simulation_context import SimulationContext
+        from isaacsim.core.api.simulation_context import SimulationContext
         from isaacsim.core.simulation_manager import SimulationManager
 
         new_task_configs = []
@@ -384,7 +384,7 @@ class SimulatorRunner:
             task_name (str): Task name to clear.
             keep_scene (bool): If True, keep scene prim and only clear robots/objects.
         """
-        from omni.isaac.core.loggers import DataLogger
+        from isaacsim.core.loggers import DataLogger
 
         if task_name not in self.current_tasks:
             log.warning(f'Clear task {task_name} fail. The task {task_name} is not in current_tasks.')
@@ -718,7 +718,7 @@ class SimulatorRunner:
         rendering_dt = eval(rendering_dt) if isinstance(rendering_dt, str) else rendering_dt
         use_fabric = self.config.simulator.use_fabric
         log.info(f'simulator params: physics dt={physics_dt}, rendering dt={rendering_dt}, use_fabric={use_fabric}')
-        from omni.isaac.core import World
+        from isaacsim.core.api import World
 
         self._world: World = World(
             physics_dt=physics_dt,
@@ -771,19 +771,20 @@ class SimulatorRunner:
         self._simulation_app._carb_settings.set('/physics/cooking/ujitsoCollisionCooking', False)
         log.debug('SimulationApp init done')
 
-        # Configure streaming for Isaac Sim 5.0+
+        # Configure streaming for Isaac Sim 5.0+ / 6.0+
         if native:
             log.warning('native streaming is DEPRECATED, webrtc streaming is used instead')
         webrtc = native or webrtc
         self.setup_streaming_500(webrtc)
 
     def setup_streaming_500(self, webrtc: bool):
-        """Configure streaming for Isaac Sim 5.0+."""
+        """Configure streaming for Isaac Sim 6.0+."""
         if webrtc:
-            from omni.isaac.core.utils.extensions import enable_extension
+            from isaacsim.core.utils.extensions import enable_extension
 
             self._simulation_app.set_setting('/app/window/drawMouse', True)
-            enable_extension('omni.services.streamclient.webrtc')
+            self._simulation_app.set_setting('/app/livestream/allowInsecureWebSockets', True)
+            enable_extension('omni.kit.livestream.webrtc')
 
     @property
     def simulation_app(self):

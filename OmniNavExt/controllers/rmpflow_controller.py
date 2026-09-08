@@ -11,7 +11,7 @@ from OmniNavExt.configs.controllers import RMPFlowControllerCfg
 @BaseController.register('RMPFlowController')
 class RMPFlowController(BaseController):
     def __init__(self, config: RMPFlowControllerCfg, robot: BaseRobot, scene: IScene):
-        from omni.isaac.motion_generation import ArticulationMotionPolicy, RmpFlow
+        from isaacsim.robot_motion.motion_generation import ArticulationMotionPolicy, RmpFlow
 
         super().__init__(config=config, robot=robot, scene=scene)
         self.rmpflow = RmpFlow(

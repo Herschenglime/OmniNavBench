@@ -34,7 +34,7 @@ kit = SimulationApp(launch_config=CONFIG)
 
 import omni.physx
 import omni.physx.bindings._physx as physx_bindings
-from omni.isaac.core import SimulationContext
+from isaacsim.core.api.simulation_context import SimulationContext
 from pxr import UsdUtils
 
 kit.set_setting(physx_bindings.SETTING_UJITSO_COLLISION_COOKING, False)

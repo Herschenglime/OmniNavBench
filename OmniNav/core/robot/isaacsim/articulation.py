@@ -47,7 +47,7 @@ class IsaacsimArticulation(IArticulation):
 
         from isaacsim.core.prims import SingleArticulation
         from isaacsim.core.utils.prims import get_prim_at_path
-        from omni.isaac.core.utils.stage import add_reference_to_stage
+        from isaacsim.core.utils.stage import add_reference_to_stage
 
         prim = get_prim_at_path(prim_path)
         if prim.IsValid():

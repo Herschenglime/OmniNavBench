@@ -142,7 +142,7 @@ class SimulationLifecycle:
             physics_steps: Number of physics warmup steps
             render_steps: Number of render warmup steps
         """
-        from omni.isaac.core.simulation_context import SimulationContext  # type: ignore
+        from isaacsim.core.api.simulation_context import SimulationContext  # type: ignore
 
         world = getattr(self._runner, "_world", None)
         if not world:
