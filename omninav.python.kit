@@ -1,7 +1,7 @@
 [package]
 description = "A trimmed down app for use with python samples"
 title = "Isaac Sim Python"
-version = "6.0.1"
+version = "6.1.0"
 
 keywords = ["experience", "app", "usd", "isaacsim"] # That makes it browsable in UI with "experience" filter
 
@@ -24,19 +24,19 @@ keywords = ["experience", "app", "usd", "isaacsim"] # That makes it browsable in
 "omni.anim.graph.schema" = {}
 "omni.anim.navigation.core" = {}
 "omni.anim.navigation.schema" = {}
-"omni.anim.navigation.meshtools" = {}
-"omni.anim.people" = {}
-"isaacsim.anim.robot" = {}
+# "omni.anim.navigation.meshtools" = {}  # Merged into omni.anim.navigation.core in Kit 109
+# "omni.anim.people" = {}  # Removed in Isaac Sim 6.0+
+# "isaacsim.anim.robot" = {}  # Version conflict with omni.anim.navigation.core 110.3 in Isaac Sim 6.1
 
 "omni.replicator.core" = {}
-"isaacsim.replicator.incident" = {}
+"isaacsim.replicator.incident.core" = {}
 "omni.metropolis.utils" = {}
 "isaacsim.robot_motion.motion_generation" = {}
 "isaacsim.robot.manipulators.examples" = {}
 
 [settings.app]
 name = "Isaac-Sim Python"
-version = "6.0.1"
+version = "6.1.0"
 settings.persistent = false        # settings reset on each run with this app
 window.title = "Isaac Sim Python"
 vulkan = true                      # Explicitly enable Vulkan (on by default on Linux, off by default on Windows)
@@ -44,7 +44,7 @@ enableDeveloperWarnings = false    # disable developer warnings to reduce log no
 
 [settings.app.exts.folders]
 '++' = [
-    # "${app}",
+    "${app}",
     "${app}/../exts",
     "${app}/../extscache",
     "${app}/../extsUser",
@@ -54,7 +54,7 @@ enableDeveloperWarnings = false    # disable developer warnings to reduce log no
 
 [settings.exts."omni.kit.registry.nucleus"]
 registries = [
-	{ name = "kit/default", url = "https://ovextensionsprod.blob.core.windows.net/exts/kit/prod/108/shared" },
+	{ name = "kit/default", url = "https://ovextensionsprod.blob.core.windows.net/exts/kit/prod/109/shared" },
 	{ name = "kit/sdk", url = "https://ovextensionsprod.blob.core.windows.net/exts/kit/prod/sdk/${kit_version_short}/${kit_git_hash}" },
 	{ name = "kit/community", url = "https://dw290v42wisod.cloudfront.net/exts/kit/community" },
 ]

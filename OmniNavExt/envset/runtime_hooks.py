@@ -783,21 +783,24 @@ class EnvsetTaskRuntime:
         if cls._route_subscription is not None:
             return
         
-        people_settings = _require_omni(
-            "omni.anim.people.settings",
-            "subscribing to AgentEvent",
-        )
-        AgentEvent = people_settings.AgentEvent
-        
-        carb_mod = _require_carb("subscribing to AgentEvent")
-        dispatcher = carb_mod.eventdispatcher.get_eventdispatcher()
-        
-        cls._route_subscription = dispatcher.observe_event(
-            event_name=AgentEvent.AgentRegistered,
-            on_event=cls._on_agent_registered,
-            observer_name="OmniNav/envset/runtime/routes",
-        )
-        print("[EnvsetRuntime] Subscribed to AgentEvent.AgentRegistered for route injection")
+        try:
+            people_settings = _require_omni(
+                "omni.anim.people.settings",
+                "subscribing to AgentEvent",
+            )
+            AgentEvent = people_settings.AgentEvent
+            
+            carb_mod = _require_carb("subscribing to AgentEvent")
+            dispatcher = carb_mod.eventdispatcher.get_eventdispatcher()
+            
+            cls._route_subscription = dispatcher.observe_event(
+                event_name=AgentEvent.AgentRegistered,
+                on_event=cls._on_agent_registered,
+                observer_name="OmniNav/envset/runtime/routes",
+            )
+            print("[EnvsetRuntime] Subscribed to AgentEvent.AgentRegistered for route injection")
+        except Exception as e:
+            _log_info(f"[EnvsetRuntime] omni.anim.people not available; skipping route events subscription: {e}")
 
     @classmethod
     def _on_agent_registered(cls, event):

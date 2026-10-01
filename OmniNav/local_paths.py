@@ -233,11 +233,17 @@ def resolve_runtime_kit_path(
     if KIT_DYNAMIC_MARKER not in template_text:
         raise ValueError(f"Kit template is missing dynamic marker: {KIT_DYNAMIC_MARKER}")
 
+    import isaacsim
+    isaac_root = Path(isaacsim.__file__).parent
+    injected_lines = [
+        f'    "{_kit_escape(str(isaac_root / "exts"))}",',
+        f'    "{_kit_escape(str(isaac_root / "extscache"))}",',
+        f'    "{_kit_escape(str(isaac_root / "extsDeprecated"))}",',
+        f'    "{_kit_escape(str(isaac_root / "extsUser"))}",',
+    ]
     if source_path:
-        injected_line = f'    "{_kit_escape(str(source_path))}",'
-    else:
-        injected_line = '    # external IsaacLab source not injected'
-    rendered = template_text.replace(KIT_DYNAMIC_MARKER, injected_line)
+        injected_lines.append(f'    "{_kit_escape(str(source_path))}",')
+    rendered = template_text.replace(KIT_DYNAMIC_MARKER, "\n".join(injected_lines))
 
     digest = hashlib.sha1(
         f"{template}:{template.stat().st_mtime_ns}:{source_path}".encode("utf-8")

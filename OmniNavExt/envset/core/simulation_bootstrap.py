@@ -35,6 +35,7 @@ class SimulationBootstrap:
         from isaacsim import SimulationApp
 
         apply_local_path_env()
+
         launch_config = {
             "headless": self._config.headless,
             "anti_aliasing": 0,

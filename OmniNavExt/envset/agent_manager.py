@@ -168,27 +168,30 @@ class AgentManager:
         clean the registry when the simulation stops
         """
         carb = _require_carb("registering AgentManager events")
-        AgentEvent = _require_omni(
-            "omni.anim.people.settings",
-            "registering AgentEvent listeners",
-        ).AgentEvent
         omni_usd = _require_omni("omni.usd", "subscribing to stage events")
-        # subscription to agent register event
-        dispatcher = carb.eventdispatcher.get_eventdispatcher()
-        print("[AgentManager][DEBUG] Registering AgentEvent.AgentRegistered observer...")
-        self._agent_registered_sub = dispatcher.observe_event(
-            event_name=AgentEvent.AgentRegistered,
-            on_event=self.on_agent_registered,
-            observer_name="isaacsim/replicator/agent/ON_AGENT_REGISTERED"
-        )
-        print(f"[AgentManager][DEBUG] AgentRegistered observer handle: {self._agent_registered_sub}")
-        # subscription to metadata update event
-        print("[AgentManager][DEBUG] Registering AgentEvent.MetadataUpdateEvent observer...")
-        self._metadata_updated_sub = dispatcher.observe_event(
-            event_name=AgentEvent.MetadataUpdateEvent,
-            on_event=self.on_metadata_updated,
-            observer_name="isaacsim/replicator/agent/ON_METADATA_UPDATED"
-        )
+        try:
+            AgentEvent = _require_omni(
+                "omni.anim.people.settings",
+                "registering AgentEvent listeners",
+            ).AgentEvent
+            # subscription to agent register event
+            dispatcher = carb.eventdispatcher.get_eventdispatcher()
+            print("[AgentManager][DEBUG] Registering AgentEvent.AgentRegistered observer...")
+            self._agent_registered_sub = dispatcher.observe_event(
+                event_name=AgentEvent.AgentRegistered,
+                on_event=self.on_agent_registered,
+                observer_name="isaacsim/replicator/agent/ON_AGENT_REGISTERED"
+            )
+            print(f"[AgentManager][DEBUG] AgentRegistered observer handle: {self._agent_registered_sub}")
+            # subscription to metadata update event
+            print("[AgentManager][DEBUG] Registering AgentEvent.MetadataUpdateEvent observer...")
+            self._metadata_updated_sub = dispatcher.observe_event(
+                event_name=AgentEvent.MetadataUpdateEvent,
+                on_event=self.on_metadata_updated,
+                observer_name="isaacsim/replicator/agent/ON_METADATA_UPDATED"
+            )
+        except Exception as e:
+            carb.log_warn(f"[AgentManager] omni.anim.people not available, skipping people agent events: {e}")
 
         self._usd_context = omni_usd.get_context()
         if self._usd_context is not None and self._stage_closing_event_sub is None:

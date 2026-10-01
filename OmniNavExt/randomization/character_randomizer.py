@@ -3,9 +3,23 @@ import carb.events
 from pathlib import Path
 import omni.kit.app
 from omni.metropolis.utils.file_util import JSONFileUtil
-from omni.metropolis.utils.carb_util import CarbSettingUtil
-from omni.anim.people.scripts.custom_command.command_manager import CustomCommandManager
-from omni.anim.people.scripts.custom_command.defines import CustomCommandTemplate
+try:
+    from omni.anim.people.scripts.custom_command.command_manager import CustomCommandManager
+    from omni.anim.people.scripts.custom_command.defines import CustomCommandTemplate
+except ImportError:
+    class CustomCommandTemplate:
+        TIMING = "TIMING"
+        TIMING_TO_OBJECT = "TIMING_TO_OBJECT"
+        GOTO_BLEND = "GOTO_BLEND"
+
+    class CustomCommandManager:
+        @classmethod
+        def get_instance(cls):
+            return cls()
+
+        def get_custom_command_by_name(self, name):
+            return None
+
 from OmniNavExt.envset.stage_util import CharacterUtil
 from OmniNavExt.envset.settings import CommandSetting, Infos
 

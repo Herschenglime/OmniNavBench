@@ -1,7 +1,7 @@
 import carb
 import numpy as np
 import omni.anim.navigation.core as nav
-from omni.metropolis.utils.carb_util import CarbUtil
+import omni.metropolis.utils.carb_util as CarbUtil
 from omni.metropolis.utils.simulation_util import SimulationUtil
 
 from .randomizer import Randomizer

@@ -2,7 +2,7 @@ from typing import Optional, Tuple
 
 import numpy as np
 import omni.replicator.core as rep
-from isaacsim.core.prims.xform_prim import XFormPrim
+from isaacsim.core.prims import SingleXFormPrim as XFormPrim
 from omni.usd import get_prim_at_path
 from pxr import UsdGeom, Gf
 

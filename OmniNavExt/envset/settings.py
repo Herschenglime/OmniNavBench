@@ -14,7 +14,7 @@ try:
     import carb.settings
     import omni.kit
     from isaacsim.storage.native.nucleus import get_assets_root_path_async
-    from omni.metropolis.utils.carb_util import CarbSettingUtil
+    import omni.metropolis.utils.carb_util as CarbSettingUtil
     ISAAC_AVAILABLE = True
 except ImportError:
     carb = None
@@ -150,10 +150,8 @@ class BehaviorScriptPaths:
 
     @classmethod
     def behavior_script_path(cls):
-        fallback_path = (
-            omni.kit.app.get_app().get_extension_manager().get_extension_path_by_module("omni.anim.people")
-            + "/omni/anim/people/scripts/character_behavior.py"
-        )
+        ext_path = omni.kit.app.get_app().get_extension_manager().get_extension_path_by_module("omni.anim.people")
+        fallback_path = (ext_path + "/omni/anim/people/scripts/character_behavior.py") if ext_path else ""
         return CarbSettingUtil.get_value_by_key(
             key=cls.DEFAULT_BEHAVIOR_SCRIPT_PATH, fallback_value=fallback_path, override_setting=True
         )

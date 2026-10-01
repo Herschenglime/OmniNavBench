@@ -658,8 +658,13 @@ class SimulatorRunner:
         # create sim_view after physics init and task prims are ready
         if timeline is not None and not timeline.is_playing():
             raise RuntimeError("Warmup failed: timeline is not playing before create_simulation_view")
-        SimulationManager._create_simulation_view('reset')
-        sim_view = SimulationManager.get_physics_sim_view()
+        if hasattr(SimulationManager, "_create_simulation_view"):
+            SimulationManager._create_simulation_view('reset')
+        sim_view = (
+            SimulationManager.get_physics_simulation_view()
+            if hasattr(SimulationManager, "get_physics_simulation_view")
+            else SimulationManager.get_physics_sim_view()
+        )
         if sim_view is None:
             raise RuntimeError("Failed to initialize physics simulation view after create_simulation_view()")
 

@@ -10,9 +10,12 @@ import carb
 import omni.usd
 import omni.kit.app
 import omni.anim.navigation.core as nav
-from omni.anim.people.scripts.interactable_object_helper import InteractableObjectHelper
+try:
+    from omni.anim.people.scripts.interactable_object_helper import InteractableObjectHelper
+except ImportError:
+    InteractableObjectHelper = None
 from omni.kit.notification_manager import post_notification, NotificationStatus
-from omni.metropolis.utils.carb_util import CarbUtil
+import omni.metropolis.utils.carb_util as CarbUtil
 from omni.metropolis.utils.simulation_util import SimulationUtil
 from omni.metropolis.utils.semantics_util import SemanticsUtils
 from OmniNavExt.envset.settings import CommandSetting

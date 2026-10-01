@@ -14,11 +14,14 @@ from dataclasses import dataclass, field
 from typing import List, Dict
 import omni.timeline
 from omni.metropolis.utils.triggers.core import TriggerBase, TriggersManager
-from omni.metropolis.utils.carb_util import CarbUtil
+import omni.metropolis.utils.carb_util as CarbUtil
 from OmniNavExt.envset.agent_manager import AgentManager
 from OmniNavExt.configs.scenes.defines import ResponseProperty, CommandResponseProperty, ResponseSection
 
-from isaacsim.replicator.incident.incident_trigger import IncidentTrigger
+try:
+    from isaacsim.replicator.incident.core.incident_trigger import IncidentTrigger
+except ImportError:
+    from isaacsim.replicator.incident.incident_trigger import IncidentTrigger
 import omni.anim.navigation.core as nav
 
 """

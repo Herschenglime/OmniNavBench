@@ -222,7 +222,11 @@ class UnitScaleService:
 from OmniNavExt.randomization.randomizer_util import RandomizerUtil
 from .settings import Settings, AssetPaths, PrimPaths
 
-from omni.anim.people.scripts.custom_command.populate_anim_graph import populate_anim_graph
+try:
+    from omni.anim.people.scripts.custom_command.populate_anim_graph import populate_anim_graph
+except ImportError:
+    def populate_anim_graph(*args, **kwargs):
+        pass
 
 
 class StageUtil:
@@ -565,12 +569,15 @@ class LidarCamUtil:
         camera_prim = stage.GetPrimAtPath(camera_path)
 
         lidar_config = "Example_Solid_State"
-        _, sensor = omni.kit.commands.execute(
-            "IsaacSensorCreateRtxLidar",
-            path=camera_name,
-            parent=PrimPaths.lidar_cameras_parent_path(),
-            config=lidar_config,
-        )
+        try:
+            _, sensor = omni.kit.commands.execute(
+                "IsaacSensorCreateRtxLidar",
+                path=camera_name,
+                parent=PrimPaths.lidar_cameras_parent_path(),
+                config=lidar_config,
+            )
+        except Exception as e:
+            carb.log_warn(f"Failed to execute IsaacSensorCreateRtxLidar command: {e}")
 
         camera_prim = stage.GetPrimAtPath(camera_path)
         CameraUtil.set_camera(camera_prim, spawn_location, spawn_rotation, focallength)

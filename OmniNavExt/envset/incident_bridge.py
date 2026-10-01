@@ -5,7 +5,11 @@ from isaacsim.replicator.incident.extension import get_instance
 from omni.metropolis.utils.config_file.core import ConfigFile
 from isaacsim.replicator.incident.incident_manager import IncidentManager
 
-from omni.anim.people.python_ext import add_dynamic_obstacle_behavior_script
+try:
+    from omni.anim.people.python_ext import add_dynamic_obstacle_behavior_script
+except ImportError:
+    def add_dynamic_obstacle_behavior_script(*args, **kwargs):
+        pass
 
 class IncidentBridge:
     """Bridge between IRA and IRI."""

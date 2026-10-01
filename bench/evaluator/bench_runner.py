@@ -1880,11 +1880,9 @@ class BenchRunner:
         def _to_json_serializable(obj):
             if isinstance(obj, np.ndarray):
                 return obj.tolist()
-            if isinstance(obj, (np.int_, np.intc, np.intp, np.int8,
-                                np.int16, np.int32, np.int64, np.uint8,
-                                np.uint16, np.uint32, np.uint64)):
+            if isinstance(obj, (np.integer, int)):
                 return int(obj)
-            if isinstance(obj, (np.float_, np.float16, np.float32, np.float64)):
+            if isinstance(obj, (np.floating, float)):
                 return float(obj)
             if isinstance(obj, (np.bool_, bool)):
                 return bool(obj)
@@ -1959,11 +1957,9 @@ class BenchRunner:
         def _to_json_serializable(obj):
             if isinstance(obj, np.ndarray):
                 return obj.tolist()
-            if isinstance(obj, (np.int_, np.intc, np.intp, np.int8,
-                                np.int16, np.int32, np.int64, np.uint8,
-                                np.uint16, np.uint32, np.uint64)):
+            if isinstance(obj, (np.integer, int)):
                 return int(obj)
-            if isinstance(obj, (np.float_, np.float16, np.float32, np.float64)):
+            if isinstance(obj, (np.floating, float)):
                 return float(obj)
             if isinstance(obj, (np.bool_, bool)):
                 return bool(obj)
