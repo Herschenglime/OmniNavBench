@@ -37,3 +37,23 @@ class LayoutEditMocapControlledCameraCfg(SensorCfg):
     resolution: Optional[Tuple[int, int]] = None  # Camera only
     translation: Optional[Tuple[float, float, float]] = None
     orientation: Optional[Tuple[float, float, float, float]] = None  # Quaternion in local frame
+
+
+class PhysXRaycastLidarCfg(SensorCfg):
+    """Configuration for 2D LiDAR using PhysX scene query raycasts."""
+    type: Optional[str] = 'PhysXRaycastLidar'
+    name: Optional[str] = 'lidar'
+    prim_path: Optional[str] = None
+    horizontal_fov_deg: Optional[float] = 360.0
+    num_rays: Optional[int] = 360
+    min_range_m: Optional[float] = 0.1
+    max_range_m: Optional[float] = 25.0
+    vertical_offset_m: Optional[float] = 0.0
+    translation: Optional[Tuple[float, float, float]] = None
+    orientation: Optional[Tuple[float, float, float, float]] = None  # Quaternion (w, x, y, z)
+    noise_std: Optional[float] = 0.0
+
+
+# Alias for convenience
+Lidar2DCfg = PhysXRaycastLidarCfg
+

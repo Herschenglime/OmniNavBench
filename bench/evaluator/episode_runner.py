@@ -870,6 +870,18 @@ class EpisodeRunner:
         if primary_params is not None:
             extra["camera_params"] = primary_params
 
+        # Collect LiDAR sensors if present on robot
+        if hasattr(robot, "sensors") and robot.sensors:
+            lidar_obs = {}
+            for s_name, s_inst in robot.sensors.items():
+                s_type = getattr(getattr(s_inst, "config", None), "type", None)
+                if s_type in ("PhysXRaycastLidar", "Lidar2D"):
+                    lidar_obs[s_name] = s_inst.get_data()
+            if lidar_obs:
+                extra["lidars"] = lidar_obs
+                extra["lidar"] = next(iter(lidar_obs.values())) if len(lidar_obs) == 1 else lidar_obs
+
+
         return Observation(
             rgb=primary_rgb,
             depth=primary_depth,
